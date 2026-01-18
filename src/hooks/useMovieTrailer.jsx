@@ -26,7 +26,7 @@ const useMovieTrailer = (id) => {
     };
 
     getMovieVideo();
-  }, [dispatch, id]);
+  }, []);
 };
 
 export default useMovieTrailer;

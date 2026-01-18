@@ -17,7 +17,7 @@ const useNowPlayingMovies = () => {
     };
 
     getNowPlayingMovies();
-  }, [dispatch]);
+  }, []);
 };
 
 export default useNowPlayingMovies;

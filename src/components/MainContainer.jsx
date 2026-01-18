@@ -12,8 +12,6 @@ const MainContainer = () => {
 
   const { id, original_title, overview } = mainMovie;
 
-  console.log(mainMovie);
-
   return (
     <div className="relative bg-black pt-0 md:pt-0">
       <VideoTitle title={original_title} overview={overview} />
