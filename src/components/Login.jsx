@@ -11,6 +11,7 @@ import {
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { BG, PHOTO_URL } from "../utils/constants";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -55,11 +56,10 @@ const Login = () => {
             const user = userCredential.user;
             updateProfile(user, {
               displayName: name.current.value,
-              photoURL:
-                "https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production_2026-01-09/consent/87b6a5c0-0104-4e96-a291-092c11350111/019ae4b5-d8b1-7864-8e94-75a86b260122/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png",
+              photoURL: PHOTO_URL,
             })
               .then(() => {
-                const { uid, email, displayName, photoURL } = auth.currentUser;
+                const { uid, email, displayName, photoURL } = auth.c;
                 dispatch(
                   addUser({
                     uid: uid,
@@ -74,6 +74,7 @@ const Login = () => {
               });
           })
           .catch((error) => {
+            console.log(error);
             const errorCode = error.code;
             const errorMessage = error.message;
 
@@ -92,7 +93,7 @@ const Login = () => {
       {/* Background Image */}
       <img
         className="absolute inset-0 w-full h-full object-cover -z-20"
-        src="https://assets.nflxext.com/ffe/siteui/vlv3/797df41b-1129-4496-beb3-6fc2f29c59d3/web/GB-en-20260112-TRIFECTA-perspective_c6f7d970-d5ea-4140-9669-dca2611e70c0_small.jpg"
+        src={BG}
         alt="background"
       />
 
@@ -138,8 +139,8 @@ const Login = () => {
         </button>
         <p className="py-4 cursor-pointer underline" onClick={toggleSignInFrom}>
           {isSignInForm
-            ? "Already registered? Sign In Now"
-            : "  New to Netflix? Sign Up Now"}
+            ? "New to Netflix? Sign Up Now"
+            : "Already registered? Sign In Now"}
         </p>
       </form>
     </div>

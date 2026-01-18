@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+import { APP_LOGO, PHOTO_URL } from "../utils/constants";
 
 const Header = () => {
   const nevigate = useNavigate();
@@ -13,7 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, email, displayName, photoURL } = auth.currentUser;
         dispatch(
@@ -30,6 +31,9 @@ const Header = () => {
         nevigate("/");
       }
     });
+
+    return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSignOut = () => {
@@ -43,18 +47,18 @@ const Header = () => {
       });
   };
   return (
-    <div className="absolute top-0 left-0 w-full px-6 py-4 z-50 flex justify-between">
-      <img
-        className="w-44 cursor-pointer"
-        src={
-          "https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production_2026-01-09/consent/87b6a5c0-0104-4e96-a291-092c11350111/019ae4b5-d8b1-7864-8e94-75a86b260122/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
-        }
-        alt="logo"
-      />
+    <div className="absolute top-0 left-0 w-full px-6 py-4 z-50 flex justify-between bg-linear-to-b from-black">
+      <img className="w-44 cursor-pointer" src={APP_LOGO} alt="logo" />
       {user && (
         <div className="flex p-2">
-          <img className="w-12 h-12" alt="usericon" src={user?.photoURL} />
-          <button onClick={handleSignOut}>Sign out</button>
+          <img
+            className="w-12 h-12"
+            alt="usericon"
+            src="/assets/user-icon.jpg"
+          />
+          <button className="text-white font-bold m-2" onClick={handleSignOut}>
+            (Sign out)
+          </button>
         </div>
       )}
     </div>
